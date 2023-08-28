@@ -9,7 +9,7 @@ const PlacedSearchBar = styled(SearchBar)`
 function App({ className }: { className?: string }) {
   return (
     <div className={`App ${className}`}>
-      <PlacedSearchBar />
+      <PlacedSearchBar setText={alert} />
     </div>
   );
 }
@@ -17,8 +17,9 @@ function App({ className }: { className?: string }) {
 export default styled(App)`
   display: grid;
   grid-template-columns: auto 50rem auto;
-  grid-template-rows: auto 100%;
+  grid-template-rows: auto 1rem 100%;
   grid-template-areas:
     ". searchbar ."
+    ". . ."
     ". list      .";
 `;

@@ -2,13 +2,9 @@ import { styled } from "styled-components";
 import Button from "./Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-
-type SearchBarProps = {
-  className?: string;
-};
+import { useState } from "react";
 
 const SearchButton = styled(Button)`
-  aspect-ratio: 1/1;
   border: none;
   font-size: 1.5rem;
 `;
@@ -26,14 +22,41 @@ const SearchBox = styled.input`
   }
 `;
 
-const SearchBar = ({ className }: SearchBarProps): JSX.Element => {
+type SearchBarProps = {
+  className?: string;
+  setText?: (text: string) => void;
+};
+
+const SearchBar = ({
+  className,
+  setText: exportText,
+}: SearchBarProps): JSX.Element => {
+  const [text, setText] = useState("");
+
+  const onSubmit = () => {
+    if (exportText) {
+      exportText(text);
+    }
+  };
+
   return (
-    <div className={className}>
-      <SearchBox placeholder="Search..." title="Search box" />
-      <SearchButton title="Search button">
+    <form
+      className={className}
+      onSubmit={(ev) => {
+        ev.preventDefault();
+        onSubmit();
+      }}
+    >
+      <SearchBox
+        placeholder="Search..."
+        title="Search box"
+        onChange={(ev) => setText(ev.target.value)}
+        value={text}
+      />
+      <SearchButton title="Search button" type="submit">
         <FontAwesomeIcon icon={faSearch} />
       </SearchButton>
-    </div>
+    </form>
   );
 };
 
