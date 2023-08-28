@@ -4,7 +4,7 @@ import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
 import { dummyResults } from "./dummy";
 import ModalEnvironment from "./components/ModalEnvironment";
-import MovieModal from "./components/MovieModal";
+import MovieModal from "./components/MovieModal/MovieModal";
 import { Movie } from "./schemas/movie";
 
 const PlacedSearchBar = styled(SearchBar)`
