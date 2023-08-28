@@ -34,6 +34,7 @@ const MovieModal = ({
 
 export default styled(MovieModal)`
   height: 40rem;
+  max-height: 100vh;
   background-color: var(--background-secondary);
   display: grid;
   grid-template-columns: 15rem 1px 30rem;
