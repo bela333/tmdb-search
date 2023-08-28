@@ -5,14 +5,20 @@ import { Movie } from "../schemas/movie";
 const MovieList = ({
   className,
   movies,
+  showMovieDetails,
 }: {
   className?: string;
   movies: Movie[];
+  showMovieDetails: (movie: Movie) => void;
 }) => {
   return (
     <div className={className}>
       {movies.map((movie) => (
-        <MovieItem movie={movie} key={movie.id} />
+        <MovieItem
+          movie={movie}
+          key={movie.id}
+          showMovieDetails={showMovieDetails}
+        />
       ))}
     </div>
   );

@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
 import { dummyResults } from "./dummy";
+import ModalEnvironment from "./components/ModalEnvironment";
+import MovieModal from "./components/MovieModal";
+import { Movie } from "./schemas/movie";
 
 const PlacedSearchBar = styled(SearchBar)`
   grid-area: searchbar;
@@ -12,10 +15,28 @@ const PlacedMovieList = styled(MovieList)`
 `;
 
 function App({ className }: { className?: string }) {
+  const [isModalShown, setIsModalShown] = useState(false);
+  const [modalMovie, setModalMovie] = useState<Movie | undefined>();
+
+  const showMovieDetails = (movie: Movie) => {
+    setModalMovie(movie);
+    setIsModalShown(true);
+  };
+
   return (
     <div className={className}>
       <PlacedSearchBar setText={alert} />
-      <PlacedMovieList movies={dummyResults} />
+      <PlacedMovieList
+        movies={dummyResults}
+        showMovieDetails={showMovieDetails}
+      />
+      <ModalEnvironment
+        isShown={isModalShown && modalMovie != undefined}
+        setIsShown={setIsModalShown}
+      >
+        {/* Because of "isShown", modalMovie will only be used, if it is not undefined */}
+        <MovieModal movie={modalMovie as Movie} />
+      </ModalEnvironment>
     </div>
   );
 }

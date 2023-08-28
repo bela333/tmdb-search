@@ -17,13 +17,15 @@ const Subtitle = styled.h2`
 const MovieItem = ({
   className,
   movie,
+  showMovieDetails,
 }: {
   className?: string;
   movie: Movie;
+  showMovieDetails: (movie: Movie) => void;
 }) => {
   const release_year = movie.release_date.split("-")[0];
   return (
-    <a className={className} onClick={() => alert(movie.original_title)}>
+    <a className={className} onClick={() => showMovieDetails(movie)}>
       <Title>{movie.original_title}</Title>
       <Subtitle>{release_year}</Subtitle>
     </a>
