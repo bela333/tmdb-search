@@ -52,6 +52,7 @@ const SearchBar = ({
         title="Search box"
         onChange={(ev) => setText(ev.target.value)}
         value={text}
+        name="moviename"
       />
       <SearchButton title="Search button" type="submit">
         <FontAwesomeIcon icon={faSearch} />
@@ -68,6 +69,6 @@ export default styled(SearchBar)`
   &:focus-within {
     border-bottom-color: var(--secondary-selected);
   }
-  background-color: white;
+  background-color: var(--background-secondary);
   padding: 0.5rem;
 `;

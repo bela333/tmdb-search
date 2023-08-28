@@ -1,8 +1,8 @@
 :root {
   --bg-color: #e7eef9;
   --secondary: lightgray;
-  --secondary-pressed: gray;
   --secondary-selected: blue;
+  --background-secondary: white;
 }
 
 body {
