@@ -1,10 +1,10 @@
 :root {
-    --bg-color: #e7eef9;
-    --secondary: lightgray;
-    --secondary-pressed: gray;
-    --secondary-selected: blue;
+  --bg-color: #e7eef9;
+  --secondary: lightgray;
+  --secondary-pressed: gray;
+  --secondary-selected: blue;
 }
 
-body{
-    background-color: var(--bg-color);
+body {
+  background-color: var(--bg-color);
 }

@@ -1,9 +1,9 @@
-import { styled } from 'styled-components';
+import { styled } from "styled-components";
 
 export default styled.button`
-background-color: transparent;
-border: 1px solid var(--secondary);
-&:hover{
+  background-color: transparent;
+  border: 1px solid var(--secondary);
+  &:hover {
     cursor: pointer;
-}
+  }
 `;
