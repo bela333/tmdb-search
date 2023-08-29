@@ -20,7 +20,16 @@ const Director = ({
   className?: string;
   credits: SuspensifiedPromise<Credits>;
 }) => {
-  const director = extractDirector(credits.read().crew);
+  let director;
+  try {
+    director = extractDirector(credits.read().crew);
+  } catch (error: any) {
+    if (error.then) {
+      /* Duck typing. Is it a promise? */
+      throw error;
+    }
+    return <div className={className}></div>;
+  }
   return (
     <div className={className}>
       {director ? <Text $thin>Directed By:</Text> : null}

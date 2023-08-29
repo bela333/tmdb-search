@@ -18,12 +18,26 @@ const Cast = ({
   className?: string;
   credits: SuspensifiedPromise<Credits>;
 }) => {
-  const cast = credits.read().cast;
+  let cast;
+  try {
+    cast = credits.read().cast;
+  } catch (error: any) {
+    if (error.then) {
+      /* Duck typing. Is it a promise? */
+      throw error;
+    }
+    return (
+      <div className={className}>
+        <Text $color="red">Could not get movie credits:</Text>
+        <Text>{error + ""}</Text>
+      </div>
+    );
+  }
   if (cast.length <= 0) {
     return <div></div>;
   }
   return (
-    <div>
+    <div className={className}>
       <h2>Cast</h2>
       {credits.read().cast.map((actor) => {
         return (
@@ -36,10 +50,14 @@ const Cast = ({
             >
               {actor.name}
             </Link>{" "}
-            <Text as="span" $thin>
-              as
-            </Text>{" "}
-            {actor.character}
+            {actor.character ? (
+              <span>
+                <Text as="span" $thin>
+                  as
+                </Text>{" "}
+                {actor.character}
+              </span>
+            ) : null}
           </ActorEntry>
         );
       })}

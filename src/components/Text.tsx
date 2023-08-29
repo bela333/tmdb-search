@@ -9,6 +9,7 @@ const Text = styled.div<{
   $justified?: boolean;
   $fontSize?: string;
   $underlined?: boolean;
+  $color?: string;
 }>`
   text-decoration: none;
   margin: 0;
@@ -64,6 +65,9 @@ const Text = styled.div<{
 
   /* Font size */
   font-size: ${(props) => (props.$fontSize ? props.$fontSize : "revert")};
+
+  /* Text color */
+  color: ${(props) => (props.$color ? props.$color : "black")};
 `;
 
 const Link = styled(Text)`

@@ -4,6 +4,7 @@ import { Movie } from "../schemas/movie";
 import { SuspensifiedPromise } from "../suspensify";
 import { Suspense } from "react";
 import Loading from "./Loading";
+import { Text } from "./Text";
 
 const MovieListItems = styled(
   ({
@@ -15,9 +16,24 @@ const MovieListItems = styled(
     movies: SuspensifiedPromise<Movie[]>;
     showMovieDetails: (movie: Movie) => void;
   }) => {
+    let list;
+    try {
+      list = movies.read();
+    } catch (error: any) {
+      if (error.then) {
+        /* Duck typing. Is it a promise? */
+        throw error;
+      }
+      return (
+        <div className={className}>
+          <Text $color="red">Could not get list of movies:</Text>
+          <Text>{error + ""}</Text>
+        </div>
+      );
+    }
     return (
       <div className={className}>
-        {movies.read().map((movie) => (
+        {list.map((movie) => (
           <MovieItem
             movie={movie}
             key={movie.id}
