@@ -2,7 +2,9 @@ import { styled } from "styled-components";
 import { Movie } from "../../schemas/movie";
 import MovieModalSidebar from "./MovieModalSidebar";
 import MovieModalContent from "./MovieModalContent";
-import { dummyCredits } from "../../dummy";
+import { useMemo } from "react";
+import getCredits from "../../api/getCredits";
+import { suspensify } from "../../suspensify";
 
 const PlacedMovieModalSidebar = styled(MovieModalSidebar)`
   grid-area: sidebar;
@@ -23,11 +25,12 @@ const MovieModal = ({
   className?: string;
   movie: Movie;
 }) => {
+  const credits = useMemo(() => suspensify(getCredits(movie.id)), [movie]);
   return (
     <div className={className}>
-      <PlacedMovieModalSidebar movie={movie} credits={dummyCredits} />
+      <PlacedMovieModalSidebar movie={movie} credits={credits} />
       <Separator />
-      <PlacedMovieModalContent movie={movie} credits={dummyCredits} />
+      <PlacedMovieModalContent movie={movie} credits={credits} />
     </div>
   );
 };
