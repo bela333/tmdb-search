@@ -1,14 +1,7 @@
 import { styled } from "styled-components";
 import { Movie } from "../../schemas/movie";
 import { Cast } from "../../schemas/cast";
-
-const Overview = styled.div`
-  text-align: justify;
-`;
-
-const InlineThin = styled.span`
-  font-weight: 100;
-`;
+import { Text } from "../Text";
 
 const ActorEntry = styled.div`
   padding-bottom: 0.4rem;
@@ -26,7 +19,7 @@ const MovieModalContent = ({
   return (
     <div className={className}>
       <h1>{movie.original_title}</h1>
-      <Overview>{movie.overview}</Overview>
+      <Text justified>{movie.overview}</Text>
       <h2>Cast</h2>
       {cast.map((actor) => {
         return (
@@ -34,7 +27,10 @@ const MovieModalContent = ({
             <a href={`https://www.themoviedb.org/person/${actor.id}`}>
               {actor.name}
             </a>{" "}
-            <InlineThin>as</InlineThin> {actor.character}
+            <Text as="span" thin>
+              as
+            </Text>{" "}
+            {actor.character}
           </ActorEntry>
         );
       })}

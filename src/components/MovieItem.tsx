@@ -1,18 +1,6 @@
 import { styled } from "styled-components";
 import { Movie } from "../schemas/movie";
-
-const Title = styled.h1`
-  margin: 0;
-  font-weight: normal;
-`;
-
-const Subtitle = styled.h2`
-  font-size: 1.2rem;
-  margin: 0;
-  font-style: italic;
-  color: gray;
-  font-weight: 100;
-`;
+import { Text } from "./Text";
 
 const MovieItem = ({
   className,
@@ -26,8 +14,10 @@ const MovieItem = ({
   const release_year = movie.release_date.split("-")[0];
   return (
     <a className={className} onClick={() => showMovieDetails(movie)}>
-      <Title>{movie.original_title}</Title>
-      <Subtitle>{release_year}</Subtitle>
+      <Text as="h1">{movie.original_title}</Text>
+      <Text as="h2" thin italic>
+        {release_year}
+      </Text>
     </a>
   );
 };

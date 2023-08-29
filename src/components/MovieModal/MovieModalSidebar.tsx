@@ -2,22 +2,12 @@ import { styled } from "styled-components";
 import { Movie } from "../../schemas/movie";
 import ProgressBar from "../ProgressBar";
 import noImage from "../../assets/noImage.jpg";
+import { Text } from "../Text";
 
 const Thumbnail = styled.img`
   width: 80%;
   height: auto;
   margin-bottom: 1rem;
-`;
-
-const ThinText = styled.h2`
-  margin: 0;
-  font-weight: 100;
-`;
-
-const Director = styled.h1`
-  margin: 0;
-  font-weight: normal;
-  margin-bottom: 0.5rem;
 `;
 
 const MovieModalSidebar = ({
@@ -38,12 +28,16 @@ const MovieModalSidebar = ({
             : noImage
         }
       />
-      {director ? <ThinText>Directed By:</ThinText> : null}
-      {director ? <Director>{director}</Director> : null}
+      {director ? <Text thin>Directed By:</Text> : null}
+      {director ? (
+        <Text as="h1" bottomMargin="0.5rem">
+          {director}
+        </Text>
+      ) : null}
       <ProgressBar value={movie.vote_average / 10} />
-      <ThinText>
+      <Text thin>
         {(movie.vote_average * 10) | 0}% ({movie.vote_count} votes)
-      </ThinText>
+      </Text>
     </div>
   );
 };
