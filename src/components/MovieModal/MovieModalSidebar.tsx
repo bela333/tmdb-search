@@ -28,14 +28,14 @@ const MovieModalSidebar = ({
             : noImage
         }
       />
-      {director ? <Text thin>Directed By:</Text> : null}
+      {director ? <Text $thin>Directed By:</Text> : null}
       {director ? (
-        <Text as="h1" bottomMargin="0.5rem">
+        <Text as="h1" $bottomMargin="0.5rem">
           {director}
         </Text>
       ) : null}
       <ProgressBar value={movie.vote_average / 10} />
-      <Text thin>
+      <Text $thin>
         {(movie.vote_average * 10) | 0}% ({movie.vote_count} votes)
       </Text>
     </div>

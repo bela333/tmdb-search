@@ -19,7 +19,7 @@ const MovieModalContent = ({
   return (
     <div className={className}>
       <h1>{movie.original_title}</h1>
-      <Text justified>{movie.overview}</Text>
+      <Text $justified>{movie.overview}</Text>
       <h2>Cast</h2>
       {cast.map((actor) => {
         return (
@@ -27,7 +27,7 @@ const MovieModalContent = ({
             <a href={`https://www.themoviedb.org/person/${actor.id}`}>
               {actor.name}
             </a>{" "}
-            <Text as="span" thin>
+            <Text as="span" $thin>
               as
             </Text>{" "}
             {actor.character}

@@ -15,7 +15,7 @@ const MovieItem = ({
   return (
     <a className={className} onClick={() => showMovieDetails(movie)}>
       <Text as="h1">{movie.original_title}</Text>
-      <Text as="h2" thin italic>
+      <Text as="h2" $thin $italic>
         {release_year}
       </Text>
     </a>
