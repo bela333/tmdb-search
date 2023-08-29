@@ -1,5 +1,6 @@
 import React from "react";
 import { css, styled } from "styled-components";
+import useKeyDownEvent from "../useKeyDownEvent";
 
 const ModalEnvironment = ({
   className,
@@ -11,6 +12,9 @@ const ModalEnvironment = ({
   isShown: boolean;
   setIsShown: (isShown: boolean) => void;
 }>) => {
+
+  useKeyDownEvent(()=>setIsShown(false), "Escape");
+
   return isShown ? (
     <div className={className} onClick={() => setIsShown(false)}>
       <div onClick={(ev) => ev.stopPropagation()}>{children}</div>
