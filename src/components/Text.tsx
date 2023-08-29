@@ -8,7 +8,8 @@ const Text = styled.div<{
   $justified?: boolean;
 }>`
   margin: 0;
-  margin-bottom: ${(props) => (props.$bottomMargin ? props.$bottomMargin : "0")};
+  margin-bottom: ${(props) =>
+    props.$bottomMargin ? props.$bottomMargin : "0"};
   margin-top: ${(props) => (props.$topMargin ? props.$topMargin : "0")};
   font-weight: normal;
 

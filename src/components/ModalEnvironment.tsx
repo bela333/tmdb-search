@@ -12,8 +12,7 @@ const ModalEnvironment = ({
   isShown: boolean;
   setIsShown: (isShown: boolean) => void;
 }>) => {
-
-  useKeyDownEvent(()=>setIsShown(false), "Escape");
+  useKeyDownEvent(() => setIsShown(false), "Escape");
 
   return isShown ? (
     <div className={className} onClick={() => setIsShown(false)}>
