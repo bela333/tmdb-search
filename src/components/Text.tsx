@@ -63,11 +63,11 @@ const Text = styled.div<{
   }}
 
   /* Font size */
-  font-size: ${props=>props.$fontSize?props.$fontSize:"revert"};
+  font-size: ${(props) => (props.$fontSize ? props.$fontSize : "revert")};
 `;
 
 const Link = styled(Text)`
   color: black;
-`
+`;
 
-export { Text, Link};
+export { Text, Link };

@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { Movie } from "../../schemas/movie";
 import MovieModalSidebar from "./MovieModalSidebar";
 import MovieModalContent from "./MovieModalContent";
-import { dummyCast } from "../../dummy";
+import { dummyCredits } from "../../dummy";
 
 const PlacedMovieModalSidebar = styled(MovieModalSidebar)`
   grid-area: sidebar;
@@ -25,9 +25,9 @@ const MovieModal = ({
 }) => {
   return (
     <div className={className}>
-      <PlacedMovieModalSidebar movie={movie} director="Teszt Elek" />
+      <PlacedMovieModalSidebar movie={movie} credits={dummyCredits} />
       <Separator />
-      <PlacedMovieModalContent movie={movie} cast={dummyCast} />
+      <PlacedMovieModalContent movie={movie} credits={dummyCredits} />
     </div>
   );
 };

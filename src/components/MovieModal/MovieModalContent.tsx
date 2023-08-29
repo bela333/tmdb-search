@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { Movie } from "../../schemas/movie";
-import { Cast } from "../../schemas/cast";
+import { Credits } from "../../schemas/credits";
 import { Link, Text } from "../Text";
 
 const ActorEntry = styled.div`
@@ -10,22 +10,34 @@ const ActorEntry = styled.div`
 const MovieModalContent = ({
   className,
   movie,
-  cast,
+  credits,
 }: {
   className?: string;
   movie: Movie;
-  cast: Cast[];
+  credits: Credits;
 }) => {
-  const release_year = movie.release_date.split("-")[0];
   return (
     <div className={className}>
-      <Link as="a" target="_blank" href={`https://www.themoviedb.org/movie/${movie.id}`} $fontSize="2em" $bold>{movie.original_title}</Link>
+      <Link
+        as="a"
+        target="_blank"
+        href={`https://www.themoviedb.org/movie/${movie.id}`}
+        $fontSize="2em"
+        $bold
+      >
+        {movie.original_title}
+      </Link>
       <Text $justified>{movie.overview}</Text>
       <h2>Cast</h2>
-      {cast.map((actor) => {
+      {credits.cast.map((actor) => {
         return (
           <ActorEntry key={actor.id + "#" + actor.character}>
-            <Link as="a" target="_blank" href={`https://www.themoviedb.org/person/${actor.id}`} $underlined>
+            <Link
+              as="a"
+              target="_blank"
+              href={`https://www.themoviedb.org/person/${actor.id}`}
+              $underlined
+            >
               {actor.name}
             </Link>{" "}
             <Text as="span" $thin>
