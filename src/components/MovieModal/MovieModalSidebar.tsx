@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { Movie } from "../../schemas/movie";
 import ProgressBar from "../ProgressBar";
 import noImage from "../../assets/noImage.jpg";
-import { Text } from "../Text";
+import { Link, Text } from "../Text";
 
 const Thumbnail = styled.img`
   width: 80%;
@@ -21,6 +21,7 @@ const MovieModalSidebar = ({
 }) => {
   return (
     <div className={className}>
+      <a href={`https://www.themoviedb.org/movie/${movie.id}`} target="_blank" rel="noopener noreferrer">
       <Thumbnail
         src={
           movie.poster_path
@@ -28,11 +29,12 @@ const MovieModalSidebar = ({
             : noImage
         }
       />
+      </a>
       {director ? <Text $thin>Directed By:</Text> : null}
       {director ? (
-        <Text as="h1" $bottomMargin="0.5rem">
+        <Link as="a" target="_blank" href={`https://www.themoviedb.org/person/11`} $bottomMargin="0.5rem" $fontSize="2em" $underlined>
           {director}
-        </Text>
+        </Link>
       ) : null}
       <ProgressBar value={movie.vote_average / 10} />
       <Text $thin>

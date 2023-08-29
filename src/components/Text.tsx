@@ -5,8 +5,12 @@ const Text = styled.div<{
   $topMargin?: string;
   $thin?: boolean;
   $italic?: boolean;
+  $bold?: boolean;
   $justified?: boolean;
+  $fontSize?: string;
+  $underlined?: boolean;
 }>`
+  text-decoration: none;
   margin: 0;
   margin-bottom: ${(props) =>
     props.$bottomMargin ? props.$bottomMargin : "0"};
@@ -31,6 +35,15 @@ const Text = styled.div<{
     }
   }}
 
+  /* Bold text */
+  ${(props) => {
+    if (props.$bold) {
+      return css`
+        font-weight: bold;
+      `;
+    }
+  }}
+
   /* Justified alignment */
   ${(props) => {
     if (props.$justified) {
@@ -39,6 +52,22 @@ const Text = styled.div<{
       `;
     }
   }}
+
+  /* Underline */
+  ${(props) => {
+    if (props.$underlined) {
+      return css`
+        text-decoration: underline;
+      `;
+    }
+  }}
+
+  /* Font size */
+  font-size: ${props=>props.$fontSize?props.$fontSize:"revert"};
 `;
 
-export { Text };
+const Link = styled(Text)`
+  color: black;
+`
+
+export { Text, Link};
