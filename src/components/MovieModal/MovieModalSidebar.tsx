@@ -40,6 +40,7 @@ const MovieModalSidebar = ({
       <Text $thin>
         {(movie.vote_average * 10) | 0}% ({movie.vote_count} votes)
       </Text>
+      {movie.release_date?(<Text $topMargin="1rem">Release date: {movie.release_date}</Text>):null}
     </div>
   );
 };
