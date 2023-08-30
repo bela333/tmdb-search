@@ -1,8 +1,9 @@
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
 
-export default styled.button`
+export default styled.button<{ $noBorder?: boolean }>`
   background-color: transparent;
-  border: 1px solid var(--secondary);
+  border: ${(props) => (props.$noBorder ? "0px" : "1px")} solid var(--secondary);
+
   &:hover {
     cursor: pointer;
   }

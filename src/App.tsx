@@ -56,7 +56,10 @@ function App({ className }: { className?: string }) {
             setIsShown={setIsModalShown}
           >
             {/* Because of "isShown", modalMovie will only be used, if it is not undefined */}
-            <MovieModal movie={modalMovie as Movie} />
+            <MovieModal
+              movie={modalMovie as Movie}
+              setIsShown={setIsModalShown}
+            />
           </ModalEnvironment>
         </div>
       </ConfigurationProvider>

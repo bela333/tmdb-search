@@ -91,6 +91,9 @@ export default styled(MovieModalSidebar)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem;
+  @media screen and (min-width: 425px) {
+    margin: 1rem;
+  }
+  margin: 0rem 1rem 1rem 1rem;
   text-align: center;
 `;

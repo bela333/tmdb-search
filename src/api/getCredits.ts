@@ -9,7 +9,6 @@ import { apiFetch } from "./api";
  * await getCredits(872585)
  */
 const getCredits = async (movieId: number): Promise<Credits> => {
-  //TODO: Pagination
   const endpoint = `/movie/${movieId}/credits?language=en-US`;
   const response: Response = await apiFetch(endpoint, { method: "GET" });
   const message = await response.json();
