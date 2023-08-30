@@ -68,9 +68,9 @@ const Text = styled.div<{
   ${(props) => {
     if (props.$cutoff) {
       return css`
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       `;
     }
   }}

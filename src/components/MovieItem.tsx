@@ -25,16 +25,14 @@ const MovieItem = ({
   return (
     <a className={className} onClick={() => showMovieDetails(movie)}>
       <Thumbnail
-          src={
-            movie.poster_path ? `${imageBaseUrl}${movie.poster_path}` : noImage
-          }
-        />
-        <div style={{height: "auto"}}>
+        src={
+          movie.poster_path ? `${imageBaseUrl}${movie.poster_path}` : noImage
+        }
+      />
       <Text $cutoff>{movie.original_title}</Text>
       <Text $thin $italic>
         {release_year}
       </Text>
-        </div>
     </a>
   );
 };
@@ -55,7 +53,7 @@ export default styled(MovieItem)`
   border-radius: 0.5rem;
   transition: box-shadow 0.15s;
   box-shadow: 2px 2px 5px gray;
-  &:hover{
+  &:hover {
     box-shadow: 5px 5px 5px gray;
   }
 `;
