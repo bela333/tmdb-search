@@ -53,6 +53,7 @@ const SearchBar = ({
         onChange={(ev) => setText(ev.target.value)}
         value={text}
         name="moviename"
+        autoFocus
       />
       <SearchButton title="Search button" type="submit">
         <FontAwesomeIcon icon={faSearch} />

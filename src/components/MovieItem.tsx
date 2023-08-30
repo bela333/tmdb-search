@@ -5,9 +5,10 @@ import noImage from "../assets/noImage.jpg";
 import { useImageBase } from "./ConfigurationProvider";
 
 const Thumbnail = styled.img`
-  width: 80%;
+  width: 100%;
   height: auto;
   margin-bottom: 1rem;
+  overflow: hidden;
 `;
 
 const MovieItem = ({
@@ -28,10 +29,12 @@ const MovieItem = ({
             movie.poster_path ? `${imageBaseUrl}${movie.poster_path}` : noImage
           }
         />
-      <Text>{movie.original_title}</Text>
+        <div style={{height: "auto"}}>
+      <Text $cutoff>{movie.original_title}</Text>
       <Text $thin $italic>
         {release_year}
       </Text>
+        </div>
     </a>
   );
 };
@@ -50,4 +53,9 @@ export default styled(MovieItem)`
   scroll-snap-align: center;
   background-color: var(--background-secondary);
   border-radius: 0.5rem;
+  transition: box-shadow 0.15s;
+  box-shadow: 2px 2px 5px gray;
+  &:hover{
+    box-shadow: 5px 5px 5px gray;
+  }
 `;

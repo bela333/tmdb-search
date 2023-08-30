@@ -10,6 +10,7 @@ const Text = styled.div<{
   $fontSize?: string;
   $underlined?: boolean;
   $color?: string;
+  $cutoff?: boolean;
 }>`
   text-decoration: none;
   margin: 0;
@@ -59,6 +60,17 @@ const Text = styled.div<{
     if (props.$underlined) {
       return css`
         text-decoration: underline;
+      `;
+    }
+  }}
+
+  /* Underline */
+  ${(props) => {
+    if (props.$cutoff) {
+      return css`
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
       `;
     }
   }}
