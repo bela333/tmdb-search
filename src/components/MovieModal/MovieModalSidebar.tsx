@@ -6,6 +6,7 @@ import { Link, Text } from "../Text";
 import { Credits, extractDirector } from "../../schemas/credits";
 import { SuspensifiedPromise } from "../../suspensify";
 import { Suspense } from "react";
+import { useImageBase } from "../ConfigurationProvider";
 
 const Thumbnail = styled.img`
   width: 80%;
@@ -58,6 +59,8 @@ const MovieModalSidebar = ({
   movie: Movie;
   credits: SuspensifiedPromise<Credits>;
 }) => {
+  const imageBaseUrl = useImageBase(300);
+  console.log(imageBaseUrl);
   return (
     <div className={className}>
       <a
@@ -67,9 +70,7 @@ const MovieModalSidebar = ({
       >
         <Thumbnail
           src={
-            movie.poster_path
-              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-              : noImage
+            movie.poster_path ? `${imageBaseUrl}${movie.poster_path}` : noImage
           }
         />
       </a>

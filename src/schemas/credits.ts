@@ -16,12 +16,10 @@ export interface Credits {
   crew: Crew[];
 }
 
-function extractDirector(crew: Crew[]): Crew | null {
+export function extractDirector(crew: Crew[]): Crew | null {
   const directors = crew.filter((person) => person.job === "Director");
   if (directors.length <= 0) {
     return null;
   }
   return directors[0];
 }
-
-export { extractDirector };

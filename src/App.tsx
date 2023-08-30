@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { styled } from "styled-components";
 import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
@@ -7,6 +7,10 @@ import MovieModal from "./components/MovieModal/MovieModal";
 import { Movie } from "./schemas/movie";
 import searchMovie from "./api/searchMovie";
 import { SuspensifiedPromise, suspensify } from "./suspensify";
+import { ConfigurationProvider } from "./components/ConfigurationProvider";
+import getConfiguration from "./api/getConfiguration";
+import Spinner from "./components/Spinner";
+import GrowingSpinner from "./components/GrowingSpinner";
 
 const MovieListPlace = styled.div`
   grid-area: movielist;
@@ -31,22 +35,30 @@ function App({ className }: { className?: string }) {
     return suspensify(searchMovie(search));
   }, [search]);
 
+  const configuration = useMemo(() => {
+    return suspensify(getConfiguration());
+  }, []);
+
   return (
-    <div className={className}>
-      <SearchBarPlace>
-        <SearchBar setText={(text) => setSearch(text)} />
-      </SearchBarPlace>
-      <MovieListPlace>
-        <MovieList movies={results} showMovieDetails={showMovieDetails} />
-      </MovieListPlace>
-      <ModalEnvironment
-        isShown={isModalShown && modalMovie != undefined}
-        setIsShown={setIsModalShown}
-      >
-        {/* Because of "isShown", modalMovie will only be used, if it is not undefined */}
-        <MovieModal movie={modalMovie as Movie} />
-      </ModalEnvironment>
-    </div>
+    <Suspense fallback={<GrowingSpinner />}>
+      <ConfigurationProvider configuration={configuration}>
+        <div className={className}>
+          <SearchBarPlace>
+            <SearchBar setText={(text) => setSearch(text)} />
+          </SearchBarPlace>
+          <MovieListPlace>
+            <MovieList movies={results} showMovieDetails={showMovieDetails} />
+          </MovieListPlace>
+          <ModalEnvironment
+            isShown={isModalShown && modalMovie != undefined}
+            setIsShown={setIsModalShown}
+          >
+            {/* Because of "isShown", modalMovie will only be used, if it is not undefined */}
+            <MovieModal movie={modalMovie as Movie} />
+          </ModalEnvironment>
+        </div>
+      </ConfigurationProvider>
+    </Suspense>
   );
 }
 

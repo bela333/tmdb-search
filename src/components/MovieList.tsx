@@ -3,7 +3,7 @@ import MovieItem from "./MovieItem";
 import { Movie } from "../schemas/movie";
 import { SuspensifiedPromise } from "../suspensify";
 import { Suspense } from "react";
-import Loading from "./Loading";
+import Spinner from "./Spinner";
 import { Text } from "./Text";
 
 const MovieListItems = styled(
@@ -61,7 +61,7 @@ const MovieList = ({
 }) => {
   return (
     <div className={className}>
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Spinner />}>
         <MovieListItems movies={movies} showMovieDetails={showMovieDetails} />
       </Suspense>
     </div>

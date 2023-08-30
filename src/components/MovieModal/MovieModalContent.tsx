@@ -4,7 +4,7 @@ import { Credits } from "../../schemas/credits";
 import { Link, Text } from "../Text";
 import { SuspensifiedPromise } from "../../suspensify";
 import { Suspense } from "react";
-import Loading from "../Loading";
+import Spinner from "../Spinner";
 import Flex from "../Flex";
 
 const ActorEntry = styled.div`
@@ -89,7 +89,7 @@ const MovieModalContent = ({
       <Suspense
         fallback={
           <Flex>
-            <Loading />
+            <Spinner />
           </Flex>
         }
       >
