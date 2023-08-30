@@ -9,11 +9,13 @@ import searchMovie from "./api/searchMovie";
 import { SuspensifiedPromise, suspensify } from "./suspensify";
 import { ConfigurationProvider } from "./components/ConfigurationProvider";
 import getConfiguration from "./api/getConfiguration";
-import Spinner from "./components/Spinner";
 import GrowingSpinner from "./components/GrowingSpinner";
 
 const MovieListPlace = styled.div`
   grid-area: movielist;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
 `;
 const SearchBarPlace = styled.div`
   grid-area: searchbar;
@@ -66,8 +68,9 @@ export default styled(App)`
   display: grid;
   grid-template-columns: auto 50rem auto;
   grid-template-rows: auto 1.5rem auto;
+  height: 100%;
   grid-template-areas:
     ". searchbar ."
     ". . ."
-    ". movielist .";
+    "movielist movielist movielist";
 `;

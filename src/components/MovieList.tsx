@@ -46,8 +46,9 @@ const MovieListItems = styled(
 )`
   width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: start;
+  flex-direction: row;
+  padding-left: calc(50% - (10rem + 3rem) / 2);
+  padding-bottom: 1rem;
 `;
 
 const MovieList = ({
@@ -69,10 +70,7 @@ const MovieList = ({
 };
 
 export default styled(MovieList)`
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  min-height: 30rem;
-  padding: 2rem;
-  border: 1px solid var(--secondary);
-  background-color: var(--background-secondary);
+  flex-direction: row;
 `;
