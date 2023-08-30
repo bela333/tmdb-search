@@ -13,15 +13,13 @@ const getConfiguration = async (): Promise<Configuration> => {
     return defaultConfiguration;
   }
   const endpoint = `/configuration`;
-  console.log("Retrieving configuration");
+
   const response: Response = await apiFetch(endpoint, { method: "GET" });
   const message = await response.json();
   if (response.status !== 200) {
-    console.log("Could not get configuration");
     // Use hardcoded defaults
     return defaultConfiguration;
   }
-  console.log("Configuration: ", message);
   return message;
 };
 

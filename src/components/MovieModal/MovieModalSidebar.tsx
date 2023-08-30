@@ -60,7 +60,6 @@ const MovieModalSidebar = ({
   credits: SuspensifiedPromise<Credits>;
 }) => {
   const imageBaseUrl = useImageBase(300);
-  console.log(imageBaseUrl);
   return (
     <div className={className}>
       <a
