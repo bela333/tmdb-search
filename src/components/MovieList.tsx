@@ -5,6 +5,7 @@ import { SuspensifiedPromise } from "../suspensify";
 import { Suspense } from "react";
 import Spinner from "./Spinner";
 import { Text } from "./Text";
+import ListItem from "./ListItem";
 
 const MovieListItems = styled(
   ({
@@ -13,7 +14,7 @@ const MovieListItems = styled(
     className,
   }: {
     className?: string;
-    movies: SuspensifiedPromise<Movie[]>;
+    movies: SuspensifiedPromise<Movie[] | null>;
     showMovieDetails: (movie: Movie) => void;
   }) => {
     let list;
@@ -28,6 +29,20 @@ const MovieListItems = styled(
         <div className={className}>
           <Text $color="red">Could not get list of movies:</Text>
           <Text>{error + ""}</Text>
+        </div>
+      );
+    }
+    if (list == null) {
+      return (
+        <div className={className}>
+          <ListItem title="Welcome!" />
+        </div>
+      );
+    }
+    if (list.length == 0) {
+      return (
+        <div className={className}>
+          <ListItem title="No results" />
         </div>
       );
     }
@@ -57,7 +72,7 @@ const MovieList = ({
   showMovieDetails,
 }: {
   className?: string;
-  movies: SuspensifiedPromise<Movie[]>;
+  movies: SuspensifiedPromise<Movie[] | null>;
   showMovieDetails: (movie: Movie) => void;
 }) => {
   return (

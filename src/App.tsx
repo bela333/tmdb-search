@@ -30,9 +30,9 @@ function App({ className }: { className?: string }) {
   };
 
   const [search, setSearch] = useState<string | undefined>();
-  const results: SuspensifiedPromise<Movie[]> = useMemo(() => {
+  const results: SuspensifiedPromise<Movie[] | null> = useMemo(() => {
     if (!search) {
-      return { read: () => [] };
+      return { read: () => null };
     }
     return suspensify(searchMovie(search));
   }, [search]);
