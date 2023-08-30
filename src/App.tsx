@@ -76,7 +76,7 @@ export default styled(App)`
     "searchbar"
     "."
     "movielist";
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 425px) {
     grid-template-columns: auto 50rem auto;
     grid-template-rows: auto 1.5rem auto;
     grid-template-areas:

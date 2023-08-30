@@ -65,9 +65,10 @@ export default styled(ListItem)`
   transition: box-shadow 0.15s;
   box-shadow: 2px 2px 5px gray;
   min-width: 80vw;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 425px) {
     min-width: 10rem;
     max-width: 10rem;
     height: 20rem;
+    margin-bottom: 1rem;
   }
 `;
