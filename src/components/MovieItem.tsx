@@ -45,9 +45,6 @@ export default styled(MovieItem)`
   display: block;
   cursor: pointer;
   text-align: center;
-  min-width: 10rem;
-  max-width: 10rem;
-  height: 20rem;
   scroll-snap-align: center;
   background-color: var(--background-secondary);
   border-radius: 0.5rem;
@@ -55,5 +52,11 @@ export default styled(MovieItem)`
   box-shadow: 2px 2px 5px gray;
   &:hover {
     box-shadow: 5px 5px 5px gray;
+  }
+  min-width: 80vw;
+  @media screen and (min-width: 768px) {
+    min-width: 10rem;
+    max-width: 10rem;
+    height: 20rem;
   }
 `;

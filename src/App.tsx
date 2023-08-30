@@ -52,7 +52,7 @@ function App({ className }: { className?: string }) {
             <MovieList movies={results} showMovieDetails={showMovieDetails} />
           </MovieListPlace>
           <ModalEnvironment
-            isShown={isModalShown && modalMovie != undefined}
+            isShown={isModalShown && modalMovie !== undefined}
             setIsShown={setIsModalShown}
           >
             {/* Because of "isShown", modalMovie will only be used, if it is not undefined */}
@@ -66,11 +66,19 @@ function App({ className }: { className?: string }) {
 
 export default styled(App)`
   display: grid;
-  grid-template-columns: auto 50rem auto;
-  grid-template-rows: auto 1.5rem auto;
   height: 100%;
+  grid-template-columns: 100%;
+  grid-template-rows: auto 0.5rem auto;
   grid-template-areas:
-    ". searchbar ."
-    ". . ."
-    "movielist movielist movielist";
+    "searchbar"
+    "."
+    "movielist";
+  @media screen and (min-width: 768px) {
+    grid-template-columns: auto 50rem auto;
+    grid-template-rows: auto 1.5rem auto;
+    grid-template-areas:
+      ". searchbar ."
+      ". . ."
+      "movielist movielist movielist";
+  }
 `;
