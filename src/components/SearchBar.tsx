@@ -76,4 +76,5 @@ export default styled(SearchBar)`
   background-color: var(--background-secondary);
   padding: 0.5rem;
   transition: border-bottom-color 0.3s;
+  border-radius: 0.3rem;
 `;
