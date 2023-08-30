@@ -101,7 +101,6 @@ const MovieModalContent = ({
 
 export default styled(MovieModalContent)`
   @media screen and (min-width: 425px) {
-    padding: 1rem;
     overflow-y: scroll;
   }
 `;

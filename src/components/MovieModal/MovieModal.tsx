@@ -18,9 +18,6 @@ const PlacedModalNavbar = styled(ModalNavbar)`
 `;
 const PlacedMovieModalContent = styled(MovieModalContent)`
   grid-area: content;
-  @media screen and (min-width: 425px) {
-    padding: 0;
-  }
   padding: 1rem;
 `;
 
@@ -64,8 +61,8 @@ export default styled(MovieModal)`
   grid-template-columns: auto;
   grid-template-rows: 2.5rem auto 1px auto;
   grid-template-areas: "navbar" "sidebar" "separator" "content";
-  height: calc(100vh - 1rem);
-  width: calc(100vw - 1rem);
+  height: calc(100dvh - 1rem);
+  width: calc(100dvw - 1rem);
   border-radius: 1rem;
   overflow-y: scroll;
   background-color: var(--background-secondary);

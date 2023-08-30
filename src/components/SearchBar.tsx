@@ -12,7 +12,6 @@ const SearchButton = styled(Button)`
 const SearchBox = styled.input`
   background-color: transparent;
   border: none;
-  font-size: 2rem;
   width: 100%;
   &:focus-visible {
     outline: none;
@@ -20,6 +19,10 @@ const SearchBox = styled.input`
   &:focus::placeholder {
     color: transparent;
   }
+  @media screen and (min-width: 425px) {
+    font-size: 2rem;
+  }
+  font-size: 1.5rem;
 `;
 
 type SearchBarProps = {
