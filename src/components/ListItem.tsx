@@ -32,6 +32,7 @@ const ListItem = ({
           onClick();
         }
       }}
+      href="#"
     >
       {thumbnail ? <Thumbnail $width="100%" src={thumbnail} /> : null}
       <Text $cutoff={cutoff}>{title}</Text>
@@ -46,6 +47,7 @@ const ListItem = ({
 
 /** A single item in `MovieList`. Not necessarily for a movie */
 export default styled(ListItem)`
+  text-decoration: none;
   border: 1px solid var(--secondary);
   margin-left: 0.5rem;
   margin-right: 0.5rem;
