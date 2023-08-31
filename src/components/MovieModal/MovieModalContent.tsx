@@ -58,7 +58,7 @@ const Cast = ({ className, credits }: CastProps) => {
             </Link>{" "}
             {actor.character ? (
               <span>
-                <Text as="span" $thin>
+                <Text as="span" data-testid="as" $thin>
                   as
                 </Text>{" "}
                 {actor.character}
