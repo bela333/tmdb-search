@@ -7,12 +7,7 @@ import { Credits, extractDirector } from "../../schemas/credits";
 import { SuspensifiedPromise } from "../../suspensify";
 import { Suspense } from "react";
 import { useImageBase } from "../ConfigurationProvider";
-
-const Thumbnail = styled.img`
-  width: 80%;
-  height: auto;
-  margin-bottom: 1rem;
-`;
+import Thumbnail from "../Thumbnail";
 
 const Director = ({
   className,
@@ -68,6 +63,7 @@ const MovieModalSidebar = ({
         rel="noopener noreferrer"
       >
         <Thumbnail
+          $width="80%"
           src={
             movie.poster_path ? `${imageBaseUrl}${movie.poster_path}` : noImage
           }

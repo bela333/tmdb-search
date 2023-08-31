@@ -1,13 +1,7 @@
 import { css, styled } from "styled-components";
 import { Movie } from "../schemas/movie";
 import { Text } from "./Text";
-
-const Thumbnail = styled.img`
-  width: 100%;
-  height: auto;
-  margin-bottom: 1rem;
-  overflow: hidden;
-`;
+import Thumbnail from "./Thumbnail";
 
 const ListItem = ({
   className,
@@ -31,7 +25,7 @@ const ListItem = ({
         }
       }}
     >
-      {thumbnail ? <Thumbnail src={thumbnail} /> : null}
+      {thumbnail ? <Thumbnail $width="100%" src={thumbnail} /> : null}
       <Text $cutoff>{title}</Text>
       {subtitle ? (
         <Text $thin $italic>
