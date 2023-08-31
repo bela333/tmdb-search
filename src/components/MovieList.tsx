@@ -7,58 +7,63 @@ import { Text } from "./Text";
 import ListItem from "./ListItem";
 import GrowingSpinner from "./GrowingSpinner";
 
-const MovieListItems = styled(
-  ({
-    movies,
-    showMovieDetails,
-    className,
-  }: {
-    className?: string;
-    movies: SuspensifiedPromise<Movie[] | null>;
-    showMovieDetails: (movie: Movie) => void;
-  }) => {
-    let list;
-    try {
-      list = movies.read();
-    } catch (error: any) {
-      if (error.then) {
-        /* Duck typing. Is it a promise? */
-        throw error;
-      }
-      return (
-        <div className={className}>
-          <Text $color="red">Could not get list of movies:</Text>
-          <Text>{error + ""}</Text>
-        </div>
-      );
-    }
-    if (list == null) {
-      return (
-        <div className={className}>
-          <ListItem title="Welcome!" />
-        </div>
-      );
-    }
-    if (list.length == 0) {
-      return (
-        <div className={className}>
-          <ListItem title="No results" />
-        </div>
-      );
+const SuspendedMovieList = ({
+  movies,
+  showMovieDetails,
+  className,
+}: {
+  className?: string;
+  movies: SuspensifiedPromise<Movie[] | null>;
+  showMovieDetails: (movie: Movie) => void;
+}) => {
+  let list;
+  // Read movie list from suspense. Return early, if an error occured
+  try {
+    list = movies.read();
+  } catch (error: any) {
+    if (error.then) {
+      // Duck typing. Is it a promise? If it is, we should follow Suspense behaviour and raise it up.
+      throw error;
     }
     return (
       <div className={className}>
-        {list.map((movie) => (
-          <MovieItem
-            movie={movie}
-            key={movie.id}
-            showMovieDetails={showMovieDetails}
-          />
-        ))}
+        <Text $color="red">Could not get list of movies:</Text>
+        <Text>{error + ""}</Text>
       </div>
     );
-  },
-)`
+  }
+
+  // Show "Welcome" screen if the search box was empty
+  if (list == null) {
+    return (
+      <div className={className}>
+        <ListItem title="Welcome!" />
+      </div>
+    );
+  }
+
+  // Show "No Results" if the search result list was empty
+  if (list.length == 0) {
+    return (
+      <div className={className}>
+        <ListItem title="No results" />
+      </div>
+    );
+  }
+  return (
+    <div className={className}>
+      {list.map((movie) => (
+        <MovieItem
+          movie={movie}
+          key={movie.id}
+          showMovieDetails={showMovieDetails}
+        />
+      ))}
+    </div>
+  );
+};
+
+const StyledSuspendedMovieList = styled(SuspendedMovieList)`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -69,24 +74,30 @@ const MovieListItems = styled(
   padding-bottom: 1rem;
 `;
 
-const MovieList = ({
-  className,
-  movies,
-  showMovieDetails,
-}: {
+interface MovieListProps {
   className?: string;
+  /** A `SuspensifiedPromise` containing the list of movies shown. If `null`, it shows a generic "Welcome" screen. */
   movies: SuspensifiedPromise<Movie[] | null>;
+  /** A callback called, when a movie tile is clicked */
   showMovieDetails: (movie: Movie) => void;
-}) => {
+}
+
+const MovieList = ({ className, movies, showMovieDetails }: MovieListProps) => {
   return (
     <div className={className}>
-      <Suspense fallback={<GrowingSpinner />}>
-        <MovieListItems movies={movies} showMovieDetails={showMovieDetails} />
+      <Suspense fallback={<GrowingSpinner $growX />}>
+        <StyledSuspendedMovieList
+          movies={movies}
+          showMovieDetails={showMovieDetails}
+        />
       </Suspense>
     </div>
   );
 };
 
+/**
+ * Show a list of movies
+ */
 export default styled(MovieList)`
   width: 100%;
   display: flex;

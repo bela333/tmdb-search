@@ -1,7 +1,18 @@
 import { css, styled } from "styled-components";
-import { Movie } from "../schemas/movie";
 import { Text } from "./Text";
 import Thumbnail from "./Thumbnail";
+
+interface ListItemProps {
+  className?: string;
+  /** Title of this tile (shown in bold) */
+  title: string;
+  /** Subtitle of this tile (shown with thin letters) */
+  subtitle?: string;
+  /** An optional thumbnail shown above the titles */
+  thumbnail?: string;
+  /** A callback called, when this tile is clicked */
+  onClick?: () => void;
+}
 
 const ListItem = ({
   className,
@@ -9,13 +20,7 @@ const ListItem = ({
   thumbnail,
   title,
   onClick,
-}: {
-  className?: string;
-  title: string;
-  subtitle?: string;
-  thumbnail?: string;
-  onClick?: () => void;
-}) => {
+}: ListItemProps) => {
   return (
     <a
       className={className}
@@ -36,6 +41,7 @@ const ListItem = ({
   );
 };
 
+/** A single item in `MovieList`. Not necessarily for a movie */
 export default styled(ListItem)`
   border: 1px solid var(--secondary);
   margin-left: 0.5rem;

@@ -6,24 +6,27 @@ import { SuspensifiedPromise } from "../../suspensify";
 import { Suspense } from "react";
 import Spinner from "../Spinner";
 import Flex from "../Flex";
+import GrowingSpinner from "../GrowingSpinner";
 
 const ActorEntry = styled.div`
   padding-bottom: 0.4rem;
 `;
 
-const Cast = ({
-  className,
-  credits,
-}: {
+interface CastProps {
   className?: string;
+  /** A `SuspensifiedPromise` containing further information about the movie, regarding the creators */
   credits: SuspensifiedPromise<Credits>;
-}) => {
+}
+
+const Cast = ({ className, credits }: CastProps) => {
   let cast;
+
+  // Read the list of cast, from the `credits` suspense
   try {
     cast = credits.read().cast;
   } catch (error: any) {
     if (error.then) {
-      /* Duck typing. Is it a promise? */
+      // Duck typing. Is it a promise? If it is, we should follow Suspense behaviour and raise it up.
       throw error;
     }
     return (
@@ -33,13 +36,16 @@ const Cast = ({
       </div>
     );
   }
+
+  // If the cast list is empty, don't show section
   if (cast.length <= 0) {
     return <div></div>;
   }
+
   return (
     <div className={className}>
       <h2>Cast</h2>
-      {credits.read().cast.map((actor) => {
+      {cast.map((actor) => {
         return (
           <ActorEntry key={actor.id + "#" + actor.character}>
             <Link
@@ -65,34 +71,32 @@ const Cast = ({
   );
 };
 
+interface MovieModalContentProps {
+  className?: string;
+  /** The movie to be shown in detail */
+  movie: Movie;
+  /** A `SuspensifiedPromise` containing further information about the movie, regarding the creators */
+  credits: SuspensifiedPromise<Credits>;
+}
+
 const MovieModalContent = ({
   className,
   movie,
   credits,
-}: {
-  className?: string;
-  movie: Movie;
-  credits: SuspensifiedPromise<Credits>;
-}) => {
+}: MovieModalContentProps) => {
   return (
     <div className={className}>
       <Link
         as="a"
         target="_blank"
         href={`https://www.themoviedb.org/movie/${movie.id}`}
-        $fontSize="2em"
+        $fontSize="1.5em"
         $bold
       >
         {movie.original_title}
       </Link>
       <Text $justified>{movie.overview}</Text>
-      <Suspense
-        fallback={
-          <Flex>
-            <Spinner />
-          </Flex>
-        }
-      >
+      <Suspense fallback={<GrowingSpinner $growX />}>
         <Cast credits={credits} />
       </Suspense>
     </div>

@@ -1,17 +1,29 @@
 import { css, styled } from "styled-components";
 
-const Text = styled.div<{
+interface TextProps {
+  /** Margin to be added to the bottom of this text */
   $bottomMargin?: string;
+  /** Margin to be added to the top of this text */
   $topMargin?: string;
+  /** Make text thin */
   $thin?: boolean;
+  /** Make text italic */
   $italic?: boolean;
+  /** Make text bold */
   $bold?: boolean;
+  /** Make text alignment justified */
   $justified?: boolean;
+  /** Change font size */
   $fontSize?: string;
+  /** Underline text */
   $underlined?: boolean;
+  /** Change text color */
   $color?: string;
+  /** Show ellipses if the text is about to be cut off */
   $cutoff?: boolean;
-}>`
+}
+
+const Text = styled.div<TextProps>`
   text-decoration: none;
   margin: 0;
   margin-bottom: ${(props) =>
@@ -82,8 +94,10 @@ const Text = styled.div<{
   color: ${(props) => (props.$color ? props.$color : "black")};
 `;
 
+/** A generic component for formatted links. Same as `Text`, but with a forced "black" color. */
 const Link = styled(Text)`
   color: black;
 `;
 
+/** A generic component for formatted text */
 export { Text, Link };

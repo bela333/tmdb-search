@@ -7,38 +7,37 @@ import getCredits from "../../api/getCredits";
 import { suspensify } from "../../suspensify";
 import ModalNavbar from "./ModalNavbar";
 
-const PlacedMovieModalSidebar = styled(MovieModalSidebar)`
-  grid-area: sidebar;
-`;
 const PlacedModalNavbar = styled(ModalNavbar)`
   grid-area: navbar;
   @media screen and (min-width: 425px) {
     display: none;
   }
 `;
+const PlacedMovieModalSidebar = styled(MovieModalSidebar)`
+  grid-area: sidebar;
+`;
+const Separator = styled.div`
+  grid-area: separator;
+  background-color: var(--secondary);
+`;
 const PlacedMovieModalContent = styled(MovieModalContent)`
   grid-area: content;
   padding: 1rem;
 `;
 
-const Separator = styled.div`
-  grid-area: separator;
-  background-color: var(--secondary);
-`;
-
-const MovieModal = ({
-  className,
-  movie,
-  setIsShown,
-}: {
+interface MovieModalProps {
   className?: string;
+  /** The movie to be shown in detail */
   movie: Movie;
-  setIsShown: (isShown: boolean) => void;
-}) => {
+  /**A callback closed, when the modal needs to be closed */
+  closeModal: () => void;
+}
+
+const MovieModal = ({ className, movie, closeModal }: MovieModalProps) => {
   const credits = useMemo(() => suspensify(getCredits(movie.id)), [movie]);
   return (
     <div className={className}>
-      <PlacedModalNavbar setIsShown={setIsShown} />
+      <PlacedModalNavbar closeModal={closeModal} />
       <PlacedMovieModalSidebar movie={movie} credits={credits} />
       <Separator />
       <PlacedMovieModalContent movie={movie} credits={credits} />
@@ -46,6 +45,9 @@ const MovieModal = ({
   );
 };
 
+/**
+ * Modal for showing details about a certain movie
+ */
 export default styled(MovieModal)`
   @media screen and (min-width: 425px) {
     height: 40rem;

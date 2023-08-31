@@ -27,6 +27,7 @@ const SearchBox = styled.input`
 
 type SearchBarProps = {
   className?: string;
+  /** A callback called, when the "search" button is pushed */
   setText?: (text: string) => void;
 };
 
@@ -65,10 +66,12 @@ const SearchBar = ({
   );
 };
 
+/**
+ * A search bar
+ */
 export default styled(SearchBar)`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   border-bottom: 1px solid var(--secondary);
   &:focus-within {
     border-bottom-color: var(--secondary-selected);

@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { Movie } from "../../schemas/movie";
-import ProgressBar from "../ProgressBar";
+import RatingBar from "../RatingBar";
 import noImage from "../../assets/noImage.jpg";
 import { Link, Text } from "../Text";
 import { Credits, extractDirector } from "../../schemas/credits";
@@ -9,21 +9,24 @@ import { Suspense } from "react";
 import { useImageBase } from "../ConfigurationProvider";
 import Thumbnail from "../Thumbnail";
 
-const Director = ({
-  className,
-  credits,
-}: {
+interface DirectorProps {
   className?: string;
+  /** A `SuspensifiedPromise` containing further information about the movie, regarding the creators */
   credits: SuspensifiedPromise<Credits>;
-}) => {
+}
+
+const Director = ({ className, credits }: DirectorProps) => {
   let director;
+
+  // Read credits suspense, and extract the director (the first one)
   try {
     director = extractDirector(credits.read().crew);
   } catch (error: any) {
     if (error.then) {
-      /* Duck typing. Is it a promise? */
+      // Duck typing. Is it a promise? If it is, we should follow Suspense behaviour and raise it up.
       throw error;
     }
+    // In case of error, don't show anything
     return <div className={className}></div>;
   }
   return (
@@ -45,15 +48,19 @@ const Director = ({
   );
 };
 
+interface MovieModalSidebarProps {
+  className?: string;
+  /** The movie to be shown in detail */
+  movie: Movie;
+  /** A `SuspensifiedPromise` containing further information about the movie, regarding the creators */
+  credits: SuspensifiedPromise<Credits>;
+}
+
 const MovieModalSidebar = ({
   className,
   movie,
   credits,
-}: {
-  className?: string;
-  movie: Movie;
-  credits: SuspensifiedPromise<Credits>;
-}) => {
+}: MovieModalSidebarProps) => {
   const imageBaseUrl = useImageBase(300);
   return (
     <div className={className}>
@@ -72,7 +79,7 @@ const MovieModalSidebar = ({
       <Suspense>
         <Director credits={credits} />
       </Suspense>
-      <ProgressBar value={movie.vote_average / 10} />
+      <RatingBar value={movie.vote_average / 10} />
       <Text $thin>
         {(movie.vote_average * 10) | 0}% ({movie.vote_count} votes)
       </Text>

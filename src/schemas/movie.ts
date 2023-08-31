@@ -1,13 +1,3 @@
-/*
-    - cím
-    - megjelenési év
-    - poszter
-    - leírás
-    - szereplők
-    - rendező
-    - értékelés
-*/
-
 export interface Movie {
   original_title: string;
   release_date: string;

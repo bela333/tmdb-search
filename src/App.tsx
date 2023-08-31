@@ -17,6 +17,7 @@ const MovieListPlace = styled.div`
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
 `;
+
 const SearchBarPlace = styled.div`
   grid-area: searchbar;
 `;
@@ -32,6 +33,7 @@ function App({ className }: { className?: string }) {
   const [search, setSearch] = useState<string | undefined>();
   const results: SuspensifiedPromise<Movie[] | null> = useMemo(() => {
     if (!search) {
+      // If the search bar is empty, show the "Welcome" screen
       return { read: () => null };
     }
     return suspensify(searchMovie(search));
@@ -42,7 +44,7 @@ function App({ className }: { className?: string }) {
   }, []);
 
   return (
-    <Suspense fallback={<GrowingSpinner />}>
+    <Suspense fallback={<GrowingSpinner $growX $growY />}>
       <ConfigurationProvider configuration={configuration}>
         <div className={className}>
           <SearchBarPlace>
@@ -53,12 +55,12 @@ function App({ className }: { className?: string }) {
           </MovieListPlace>
           <ModalEnvironment
             isShown={isModalShown && modalMovie !== undefined}
-            setIsShown={setIsModalShown}
+            closeModal={() => setIsModalShown(false)}
           >
             {/* Because of "isShown", modalMovie will only be used, if it is not undefined */}
             <MovieModal
               movie={modalMovie as Movie}
-              setIsShown={setIsModalShown}
+              closeModal={() => setIsModalShown(false)}
             />
           </ModalEnvironment>
         </div>

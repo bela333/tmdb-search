@@ -2,20 +2,24 @@ import React from "react";
 import { css, styled } from "styled-components";
 import useKeyDownEvent from "../useKeyDownEvent";
 
+interface ModalEnvironmentProps {
+  className?: string;
+  /** Boolean for hiding or revealing the environment */
+  isShown: boolean;
+  /** Callback called, when the modal needs to be closed */
+  closeModal: () => void;
+}
+
 const ModalEnvironment = ({
   className,
-  setIsShown,
+  closeModal,
   isShown,
   children,
-}: React.PropsWithChildren<{
-  className?: string;
-  isShown: boolean;
-  setIsShown: (isShown: boolean) => void;
-}>) => {
-  useKeyDownEvent(() => setIsShown(false), "Escape");
+}: React.PropsWithChildren<ModalEnvironmentProps>) => {
+  useKeyDownEvent(() => closeModal(), "Escape");
 
   return isShown ? (
-    <div className={className} onClick={() => setIsShown(false)}>
+    <div className={className} onClick={() => closeModal()}>
       <div onClick={(ev) => ev.stopPropagation()}>{children}</div>
     </div>
   ) : (
@@ -23,7 +27,8 @@ const ModalEnvironment = ({
   );
 };
 
-export default styled(ModalEnvironment)<{ isShown: boolean }>`
+/** Component for housing Modals */
+export default styled(ModalEnvironment)`
   ${(props) => {
     if (props.isShown) {
       return css`

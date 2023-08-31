@@ -1,4 +1,4 @@
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 
 export default styled.button<{ $noBorder?: boolean }>`
   background-color: transparent;
