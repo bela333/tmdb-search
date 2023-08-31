@@ -64,10 +64,8 @@ const MovieListItems = styled(
   flex-direction: row;
   @media screen and (min-width: 425px) {
     flex-wrap: wrap;
-    padding-left: 0;
     justify-content: center;
   }
-  padding-left: calc(50% - (10rem + 3rem) / 2);
   padding-bottom: 1rem;
 `;
 
