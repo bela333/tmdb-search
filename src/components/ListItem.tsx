@@ -12,6 +12,8 @@ interface ListItemProps {
   thumbnail?: string;
   /** A callback called, when this tile is clicked */
   onClick?: () => void;
+  /** Show ellipses if the title is about to be cut off */
+  cutoff?: boolean;
 }
 
 const ListItem = ({
@@ -20,6 +22,7 @@ const ListItem = ({
   thumbnail,
   title,
   onClick,
+  cutoff,
 }: ListItemProps) => {
   return (
     <a
@@ -31,7 +34,7 @@ const ListItem = ({
       }}
     >
       {thumbnail ? <Thumbnail $width="100%" src={thumbnail} /> : null}
-      <Text $cutoff>{title}</Text>
+      <Text $cutoff={cutoff}>{title}</Text>
       {subtitle ? (
         <Text $thin $italic>
           {subtitle}

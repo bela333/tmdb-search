@@ -4,7 +4,6 @@ import { Movie } from "../schemas/movie";
 import { SuspensifiedPromise } from "../suspensify";
 import { Suspense } from "react";
 import { Text } from "./Text";
-import ListItem from "./ListItem";
 import GrowingSpinner from "./GrowingSpinner";
 
 const SuspendedMovieList = ({
@@ -13,7 +12,7 @@ const SuspendedMovieList = ({
   className,
 }: {
   className?: string;
-  movies: SuspensifiedPromise<Movie[] | null>;
+  movies: SuspensifiedPromise<Movie[]>;
   showMovieDetails: (movie: Movie) => void;
 }) => {
   let list;
@@ -32,21 +31,13 @@ const SuspendedMovieList = ({
       </div>
     );
   }
-
-  // Show "Welcome" screen if the search box was empty
-  if (list == null) {
-    return (
-      <div className={className}>
-        <ListItem title="Welcome!" />
-      </div>
-    );
-  }
-
   // Show "No Results" if the search result list was empty
   if (list.length == 0) {
     return (
       <div className={className}>
-        <ListItem title="No results" />
+        <Text $color="red" $bold>
+          No results
+        </Text>
       </div>
     );
   }
@@ -77,7 +68,7 @@ const StyledSuspendedMovieList = styled(SuspendedMovieList)`
 interface MovieListProps {
   className?: string;
   /** A `SuspensifiedPromise` containing the list of movies shown. If `null`, it shows a generic "Welcome" screen. */
-  movies: SuspensifiedPromise<Movie[] | null>;
+  movies: SuspensifiedPromise<Movie[]>;
   /** A callback called, when a movie tile is clicked */
   showMovieDetails: (movie: Movie) => void;
 }

@@ -10,6 +10,7 @@ import { SuspensifiedPromise, suspensify } from "./suspensify";
 import { ConfigurationProvider } from "./components/ConfigurationProvider";
 import getConfiguration from "./api/getConfiguration";
 import GrowingSpinner from "./components/GrowingSpinner";
+import Welcome from "./components/Welcome";
 
 const MovieListPlace = styled.div`
   grid-area: movielist;
@@ -31,10 +32,9 @@ function App({ className }: { className?: string }) {
   };
 
   const [search, setSearch] = useState<string | undefined>();
-  const results: SuspensifiedPromise<Movie[] | null> = useMemo(() => {
+  const results: SuspensifiedPromise<Movie[]> = useMemo(() => {
     if (!search) {
-      // If the search bar is empty, show the "Welcome" screen
-      return { read: () => null };
+      return { read: () => [] };
     }
     return suspensify(searchMovie(search));
   }, [search]);
@@ -51,7 +51,11 @@ function App({ className }: { className?: string }) {
             <SearchBar setText={(text) => setSearch(text)} />
           </SearchBarPlace>
           <MovieListPlace>
-            <MovieList movies={results} showMovieDetails={showMovieDetails} />
+            {search ? (
+              <MovieList movies={results} showMovieDetails={showMovieDetails} />
+            ) : (
+              <Welcome />
+            )}
           </MovieListPlace>
           <ModalEnvironment
             isShown={isModalShown && modalMovie !== undefined}
