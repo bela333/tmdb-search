@@ -32,7 +32,7 @@ const SuspendedMovieList = ({
     );
   }
   // Show "No Results" if the search result list was empty
-  if (list.length == 0) {
+  if (list.length === 0) {
     return (
       <div className={className}>
         <Text $color="red" $bold>

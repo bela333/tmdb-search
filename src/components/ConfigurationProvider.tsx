@@ -25,7 +25,7 @@ export const ConfigurationProvider = ({
 };
 
 const getURL = (configuration: Configuration): string => {
-  if (window.location.protocol == "https:") {
+  if (window.location.protocol === "https:") {
     return configuration.images.secure_base_url;
   } else {
     return configuration.images.base_url;

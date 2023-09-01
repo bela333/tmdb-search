@@ -4,8 +4,6 @@ import { Credits } from "../../schemas/credits";
 import { Link, Text } from "../Text";
 import { SuspensifiedPromise } from "../../suspensify";
 import { Suspense } from "react";
-import Spinner from "../Spinner";
-import Flex from "../Flex";
 import GrowingSpinner from "../GrowingSpinner";
 
 const ActorEntry = styled.div`
