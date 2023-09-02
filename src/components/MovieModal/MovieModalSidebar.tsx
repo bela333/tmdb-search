@@ -74,6 +74,8 @@ const MovieModalSidebar = ({
           src={
             movie.poster_path ? `${imageBaseUrl}${movie.poster_path}` : noImage
           }
+          title={movie.original_title}
+          alt={movie.original_title}
         />
       </a>
       <Suspense>

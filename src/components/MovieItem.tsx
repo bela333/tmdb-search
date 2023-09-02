@@ -28,6 +28,7 @@ const MovieItem = ({ className, movie, showMovieDetails }: MovieItemProps) => {
           showMovieDetails(movie);
         }
       }}
+      thumbnailTitle={movie.original_title}
       cutoff
     />
   );

@@ -32,7 +32,13 @@ const Thumbnail = (props: ThumbnailProps) => {
   return (
     <div className={props.className}>
       {!showImage ? (
-        <ThumbnailImage $width={props.$width} src={loading} $hide={showImage} />
+        <ThumbnailImage
+          $width={props.$width}
+          src={loading}
+          $hide={showImage}
+          alt="Loading..."
+          title="Loading..."
+        />
       ) : null}
       <ThumbnailImage
         {...props}
