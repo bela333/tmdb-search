@@ -29,6 +29,10 @@ const BottomPageNumberPlace = styled.div`
 `;
 const TopPageNumberPlace = styled.div`
   grid-area: toppagenumber;
+  display: none;
+  @media screen and (min-width: 425px) {
+    display: unset;
+  }
 `;
 
 function App({ className }: { className?: string }) {
@@ -50,9 +54,7 @@ function App({ className }: { className?: string }) {
 
   const [search, setSearch] = useState<string | undefined>();
   const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number | undefined>();
   const results: SuspensifiedPromise<SearchMovieResult> = useMemo(() => {
-    setTotalPages(undefined);
     if (!search) {
       return {
         read: (): SearchMovieResult => ({
@@ -63,22 +65,8 @@ function App({ className }: { className?: string }) {
       };
     }
     const promise = searchMovie(search, page);
-    promise.then((result) => setTotalPages(result.total_pages));
     return suspensify(promise);
   }, [search, page]);
-
-  const changePage = (page: number) => {
-    if (totalPages === undefined) {
-      return;
-    }
-    if (page < 1) {
-      return;
-    }
-    if (page > totalPages) {
-      return;
-    }
-    setPage(page);
-  };
 
   const configuration = useMemo(() => {
     return suspensify(getConfiguration());
@@ -96,31 +84,34 @@ function App({ className }: { className?: string }) {
               }}
             />
           </SearchBarPlace>
-          <MovieListPlace>
-            {search ? (
-              <MovieList movies={results} showMovieDetails={showMovieDetails} />
-            ) : (
-              <Welcome />
-            )}
-          </MovieListPlace>
-          <TopPageNumberPlace>
-            {totalPages !== undefined ? (
-              <PageNumber
-                pageNumber={page}
-                totalPages={totalPages}
-                changePage={changePage}
-              />
-            ) : null}
-          </TopPageNumberPlace>
-          <BottomPageNumberPlace>
-            {totalPages !== undefined ? (
-              <PageNumber
-                pageNumber={page}
-                totalPages={totalPages}
-                changePage={changePage}
-              />
-            ) : null}
-          </BottomPageNumberPlace>
+          <Suspense
+            fallback={
+              <MovieListPlace>
+                <GrowingSpinner $growX />
+              </MovieListPlace>
+            }
+          >
+            <MovieListPlace>
+              {search ? (
+                <MovieList
+                  results={results}
+                  showMovieDetails={showMovieDetails}
+                />
+              ) : (
+                <Welcome />
+              )}
+            </MovieListPlace>
+            <TopPageNumberPlace>
+              {search ? (
+                <PageNumber results={results} changePage={setPage} />
+              ) : null}
+            </TopPageNumberPlace>
+            <BottomPageNumberPlace>
+              {search ? (
+                <PageNumber results={results} changePage={setPage} />
+              ) : null}
+            </BottomPageNumberPlace>
+          </Suspense>
           <ModalEnvironment
             isShown={isModalShown && modalMovie !== undefined}
             closeModal={() => setIsModalShown(false)}

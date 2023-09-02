@@ -6,36 +6,53 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { SearchMovieResult } from "../api/searchMovie";
+import { SuspensifiedPromise } from "../suspensify";
 
 export interface PageNumberProps {
   className?: string;
-  pageNumber: number;
-  totalPages: number;
+  results: SuspensifiedPromise<SearchMovieResult>;
   changePage: (page: number) => void;
 }
 
-const PageNumber = ({
-  className,
-  pageNumber,
-  totalPages,
-  changePage,
-}: PageNumberProps) => {
+const PageNumber = ({ className, results, changePage }: PageNumberProps) => {
+  let result: SearchMovieResult;
+  // Read movie list from suspense. Return early, if an error occured
+  try {
+    result = results.read();
+  } catch (error: any) {
+    if (error.then) {
+      // Duck typing. Is it a promise? If it is, we should follow Suspense behaviour and raise it up.
+      throw error;
+    }
+    return <div className={className} data-testid="pagenumber-no-show"></div>;
+  }
   return (
     <div className={className}>
       <Button
-        onClick={() => changePage(pageNumber - 1)}
-        $invisible={pageNumber - 1 < 1}
+        onClick={() => {
+          if (result.page - 1 >= 1) {
+            changePage(result.page - 1);
+          }
+        }}
+        $invisible={result.page - 1 < 1}
         $noBorder
+        data-testid="pagenumber-left"
       >
         <FontAwesomeIcon icon={faChevronLeft} size="2xl" />
       </Button>
       <Text>
-        {pageNumber}/{totalPages}
+        {result.page}/{result.total_pages}
       </Text>
       <Button
-        onClick={() => changePage(pageNumber + 1)}
-        $invisible={pageNumber + 1 > totalPages}
+        onClick={() => {
+          if (result.page + 1 <= result.total_pages) {
+            changePage(result.page + 1);
+          }
+        }}
+        $invisible={result.page + 1 > result.total_pages}
         $noBorder
+        data-testid="pagenumber-right"
       >
         <FontAwesomeIcon icon={faChevronRight} size="2xl" />
       </Button>

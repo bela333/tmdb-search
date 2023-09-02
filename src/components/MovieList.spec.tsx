@@ -33,7 +33,7 @@ const moviesSuspense: SuspensifiedPromise<SearchMovieResult> = {
 };
 
 it("shows movies", () => {
-  render(<MovieList movies={moviesSuspense} showMovieDetails={() => {}} />);
+  render(<MovieList results={moviesSuspense} showMovieDetails={() => {}} />);
   expect(screen.getByText("Movie 1")).toBeInTheDocument();
   expect(screen.getByText("Movie 2")).toBeInTheDocument();
   expect(screen.getByText("1977")).toBeInTheDocument();
@@ -43,7 +43,7 @@ it("shows movies", () => {
 it("shows error", () => {
   render(
     <MovieList
-      movies={{
+      results={{
         read: () => {
           throw "DUMMY ERROR";
         },
@@ -54,13 +54,6 @@ it("shows error", () => {
   expect(screen.getByText("DUMMY ERROR")).toBeInTheDocument();
 });
 
-it("shows spinner", () => {
-  const promise: Promise<SearchMovieResult> = new Promise(() => {});
-  const suspense = suspensify(promise);
-  render(<MovieList movies={suspense} showMovieDetails={() => {}} />);
-  expect(screen.getByTitle("Spinner")).toBeInTheDocument();
-});
-
 it('shows "no results"', () => {
   const suspense: SuspensifiedPromise<SearchMovieResult> = {
     read: () => ({
@@ -69,6 +62,6 @@ it('shows "no results"', () => {
       total_pages: 1,
     }),
   };
-  render(<MovieList movies={suspense} showMovieDetails={() => {}} />);
+  render(<MovieList results={suspense} showMovieDetails={() => {}} />);
   expect(screen.getByText("No results")).toBeInTheDocument();
 });

@@ -2,24 +2,26 @@ import { styled } from "styled-components";
 import MovieItem from "./MovieItem";
 import { Movie } from "../schemas/movie";
 import { SuspensifiedPromise } from "../suspensify";
-import { Suspense } from "react";
 import { Text } from "./Text";
-import GrowingSpinner from "./GrowingSpinner";
 import { SearchMovieResult } from "../api/searchMovie";
 
-const SuspendedMovieList = ({
-  movies,
+interface MovieListProps {
+  className?: string;
+  /** A `SuspensifiedPromise` with the information about the current page of movies. */
+  results: SuspensifiedPromise<SearchMovieResult>;
+  /** A callback called, when a movie tile is clicked */
+  showMovieDetails: (movie: Movie) => void;
+}
+
+const MovieList = ({
+  results,
   showMovieDetails,
   className,
-}: {
-  className?: string;
-  movies: SuspensifiedPromise<SearchMovieResult>;
-  showMovieDetails: (movie: Movie) => void;
-}) => {
+}: MovieListProps) => {
   let result;
   // Read movie list from suspense. Return early, if an error occured
   try {
-    result = movies.read();
+    result = results.read();
   } catch (error: any) {
     if (error.then) {
       // Duck typing. Is it a promise? If it is, we should follow Suspense behaviour and raise it up.
@@ -55,7 +57,7 @@ const SuspendedMovieList = ({
   );
 };
 
-const StyledSuspendedMovieList = styled(SuspendedMovieList)`
+export default styled(MovieList)`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -64,34 +66,4 @@ const StyledSuspendedMovieList = styled(SuspendedMovieList)`
     justify-content: center;
   }
   padding-bottom: 1rem;
-`;
-
-interface MovieListProps {
-  className?: string;
-  /** A `SuspensifiedPromise` with the information about the current page of movies. */
-  movies: SuspensifiedPromise<SearchMovieResult>;
-  /** A callback called, when a movie tile is clicked */
-  showMovieDetails: (movie: Movie) => void;
-}
-
-const MovieList = ({ className, movies, showMovieDetails }: MovieListProps) => {
-  return (
-    <div className={className}>
-      <Suspense fallback={<GrowingSpinner $growX />}>
-        <StyledSuspendedMovieList
-          movies={movies}
-          showMovieDetails={showMovieDetails}
-        />
-      </Suspense>
-    </div>
-  );
-};
-
-/**
- * Show a list of movies
- */
-export default styled(MovieList)`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
 `;
