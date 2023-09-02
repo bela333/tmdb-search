@@ -1,4 +1,4 @@
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { styled } from "styled-components";
 import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
@@ -30,6 +30,15 @@ function App({ className }: { className?: string }) {
     setModalMovie(movie);
     setIsModalShown(true);
   };
+
+  // Disable scroll on body, if modal is shown
+  useEffect(() => {
+    if (isModalShown) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isModalShown]);
 
   const [search, setSearch] = useState<string | undefined>();
   const results: SuspensifiedPromise<Movie[]> = useMemo(() => {
