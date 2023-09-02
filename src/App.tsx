@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { styled } from "styled-components";
 import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
@@ -54,7 +54,13 @@ function App({ className }: { className?: string }) {
 
   const [search, setSearch] = useState<string | undefined>();
   const [page, setPage] = useState<number>(1);
+  const refScroll = useRef<HTMLDivElement>(null);
   const results: SuspensifiedPromise<SearchMovieResult> = useMemo(() => {
+    // Put scrolling div back to starting position when searching/changing page
+    if (refScroll.current) {
+      refScroll.current.scrollLeft = 0;
+      refScroll.current.scrollTop = 0;
+    }
     if (!search) {
       return {
         read: (): SearchMovieResult => ({
@@ -91,7 +97,7 @@ function App({ className }: { className?: string }) {
               </MovieListPlace>
             }
           >
-            <MovieListPlace>
+            <MovieListPlace ref={refScroll}>
               {search ? (
                 <MovieList
                   results={results}
