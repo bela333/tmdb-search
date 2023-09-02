@@ -5,12 +5,13 @@ import MovieList from "./components/MovieList";
 import ModalEnvironment from "./components/ModalEnvironment";
 import MovieModal from "./components/MovieModal/MovieModal";
 import { Movie } from "./schemas/movie";
-import searchMovie from "./api/searchMovie";
+import searchMovie, { SearchMovieResult } from "./api/searchMovie";
 import { SuspensifiedPromise, suspensify } from "./suspensify";
 import { ConfigurationProvider } from "./components/ConfigurationProvider";
 import getConfiguration from "./api/getConfiguration";
 import GrowingSpinner from "./components/GrowingSpinner";
 import Welcome from "./components/Welcome";
+import PageNumber from "./components/PageNumber";
 
 const MovieListPlace = styled.div`
   grid-area: movielist;
@@ -21,6 +22,13 @@ const MovieListPlace = styled.div`
 
 const SearchBarPlace = styled.div`
   grid-area: searchbar;
+`;
+
+const BottomPageNumberPlace = styled.div`
+  grid-area: bottompagenumber;
+`;
+const TopPageNumberPlace = styled.div`
+  grid-area: toppagenumber;
 `;
 
 function App({ className }: { className?: string }) {
@@ -41,12 +49,36 @@ function App({ className }: { className?: string }) {
   }, [isModalShown]);
 
   const [search, setSearch] = useState<string | undefined>();
-  const results: SuspensifiedPromise<Movie[]> = useMemo(() => {
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number | undefined>();
+  const results: SuspensifiedPromise<SearchMovieResult> = useMemo(() => {
+    setTotalPages(undefined);
     if (!search) {
-      return { read: () => [] };
+      return {
+        read: (): SearchMovieResult => ({
+          page: 1,
+          results: [],
+          total_pages: 1,
+        }),
+      };
     }
-    return suspensify(searchMovie(search));
-  }, [search]);
+    const promise = searchMovie(search, page);
+    promise.then((result) => setTotalPages(result.total_pages));
+    return suspensify(promise);
+  }, [search, page]);
+
+  const changePage = (page: number) => {
+    if (totalPages === undefined) {
+      return;
+    }
+    if (page < 1) {
+      return;
+    }
+    if (page > totalPages) {
+      return;
+    }
+    setPage(page);
+  };
 
   const configuration = useMemo(() => {
     return suspensify(getConfiguration());
@@ -57,7 +89,12 @@ function App({ className }: { className?: string }) {
       <ConfigurationProvider configuration={configuration}>
         <div className={className}>
           <SearchBarPlace>
-            <SearchBar setText={(text) => setSearch(text)} />
+            <SearchBar
+              setText={(text) => {
+                setSearch(text);
+                setPage(1);
+              }}
+            />
           </SearchBarPlace>
           <MovieListPlace>
             {search ? (
@@ -66,6 +103,24 @@ function App({ className }: { className?: string }) {
               <Welcome />
             )}
           </MovieListPlace>
+          <TopPageNumberPlace>
+            {totalPages !== undefined ? (
+              <PageNumber
+                pageNumber={page}
+                totalPages={totalPages}
+                changePage={changePage}
+              />
+            ) : null}
+          </TopPageNumberPlace>
+          <BottomPageNumberPlace>
+            {totalPages !== undefined ? (
+              <PageNumber
+                pageNumber={page}
+                totalPages={totalPages}
+                changePage={changePage}
+              />
+            ) : null}
+          </BottomPageNumberPlace>
           <ModalEnvironment
             isShown={isModalShown && modalMovie !== undefined}
             closeModal={() => setIsModalShown(false)}
@@ -86,17 +141,20 @@ export default styled(App)`
   display: grid;
   height: 100%;
   grid-template-columns: 100%;
-  grid-template-rows: auto 0.5rem auto;
+  grid-template-rows: auto 0.5rem auto auto;
   grid-template-areas:
     "searchbar"
     "."
-    "movielist";
+    "movielist"
+    "bottompagenumber";
   @media screen and (min-width: 425px) {
     grid-template-columns: auto 50rem auto;
-    grid-template-rows: auto 1.5rem auto;
+    grid-template-rows: auto 1.5rem auto auto;
     grid-template-areas:
       ". searchbar ."
       ". . ."
-      "movielist movielist movielist";
+      "toppagenumber toppagenumber toppagenumber"
+      "movielist movielist movielist"
+      "bottompagenumber bottompagenumber bottompagenumber";
   }
 `;

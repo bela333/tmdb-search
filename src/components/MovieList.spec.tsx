@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import MovieList from "./MovieList";
 import { Movie } from "../schemas/movie";
 import { SuspensifiedPromise, suspensify } from "../suspensify";
+import { SearchMovieResult } from "../api/searchMovie";
 
 const movies: Movie[] = [
   {
@@ -23,10 +24,12 @@ const movies: Movie[] = [
   },
 ];
 
-const moviesSuspense: SuspensifiedPromise<Movie[]> = {
-  read: () => {
-    return movies;
-  },
+const moviesSuspense: SuspensifiedPromise<SearchMovieResult> = {
+  read: () => ({
+    page: 1,
+    results: movies,
+    total_pages: 1,
+  }),
 };
 
 it("shows movies", () => {
@@ -52,14 +55,20 @@ it("shows error", () => {
 });
 
 it("shows spinner", () => {
-  const promise: Promise<Movie[]> = new Promise(() => {});
+  const promise: Promise<SearchMovieResult> = new Promise(() => {});
   const suspense = suspensify(promise);
   render(<MovieList movies={suspense} showMovieDetails={() => {}} />);
   expect(screen.getByTitle("Spinner")).toBeInTheDocument();
 });
 
 it('shows "no results"', () => {
-  const suspense: SuspensifiedPromise<Movie[]> = { read: () => [] };
+  const suspense: SuspensifiedPromise<SearchMovieResult> = {
+    read: () => ({
+      page: 1,
+      results: [],
+      total_pages: 1,
+    }),
+  };
   render(<MovieList movies={suspense} showMovieDetails={() => {}} />);
   expect(screen.getByText("No results")).toBeInTheDocument();
 });

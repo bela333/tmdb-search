@@ -5,6 +5,7 @@ import { SuspensifiedPromise } from "../suspensify";
 import { Suspense } from "react";
 import { Text } from "./Text";
 import GrowingSpinner from "./GrowingSpinner";
+import { SearchMovieResult } from "../api/searchMovie";
 
 const SuspendedMovieList = ({
   movies,
@@ -12,13 +13,13 @@ const SuspendedMovieList = ({
   className,
 }: {
   className?: string;
-  movies: SuspensifiedPromise<Movie[]>;
+  movies: SuspensifiedPromise<SearchMovieResult>;
   showMovieDetails: (movie: Movie) => void;
 }) => {
-  let list;
+  let result;
   // Read movie list from suspense. Return early, if an error occured
   try {
-    list = movies.read();
+    result = movies.read();
   } catch (error: any) {
     if (error.then) {
       // Duck typing. Is it a promise? If it is, we should follow Suspense behaviour and raise it up.
@@ -32,7 +33,7 @@ const SuspendedMovieList = ({
     );
   }
   // Show "No Results" if the search result list was empty
-  if (list.length === 0) {
+  if (result.results.length === 0) {
     return (
       <div className={className}>
         <Text $color="red" $bold>
@@ -43,7 +44,7 @@ const SuspendedMovieList = ({
   }
   return (
     <div className={className}>
-      {list.map((movie) => (
+      {result.results.map((movie) => (
         <MovieItem
           movie={movie}
           key={movie.id}
@@ -67,8 +68,8 @@ const StyledSuspendedMovieList = styled(SuspendedMovieList)`
 
 interface MovieListProps {
   className?: string;
-  /** A `SuspensifiedPromise` containing the list of movies shown. If `null`, it shows a generic "Welcome" screen. */
-  movies: SuspensifiedPromise<Movie[]>;
+  /** A `SuspensifiedPromise` with the information about the current page of movies. */
+  movies: SuspensifiedPromise<SearchMovieResult>;
   /** A callback called, when a movie tile is clicked */
   showMovieDetails: (movie: Movie) => void;
 }

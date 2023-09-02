@@ -13,7 +13,7 @@ interface MovieItemProps {
 
 /** A tile representing a movie. Deriving from `ListItem` */
 const MovieItem = ({ className, movie, showMovieDetails }: MovieItemProps) => {
-  const release_year = movie.release_date.split("-")[0];
+  const release_year = (movie.release_date ?? "").split("-")[0];
   const imageBaseUrl = useImageBase(300);
   return (
     <ListItem
