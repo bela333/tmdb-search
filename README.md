@@ -1,6 +1,23 @@
 # TMDB Search
 
-Notes:
+A search engine frontend for TheMovieDB. Made in React.
 
-Movie search: https://developer.themoviedb.org/reference/search-movie
-Credits: https://developer.themoviedb.org/reference/movie-credits
+## Running
+
+- Clone the repository
+- Install the dependencies:
+    ```cmd
+    $ npm install
+    ```
+- Run the development server:
+    ```cmd
+    $ npm run start
+    ```
+
+## Compiling
+
+To compile the repository, run the following command:
+
+```
+$ npm run build
+```
