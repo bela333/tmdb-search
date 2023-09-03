@@ -10,9 +10,8 @@ interface ThumbnailImageProps {
 }
 
 const ThumbnailImage = styled.img<ThumbnailImageProps>`
-  width: ${(props) => props.$width};
+  width: 100%;
   height: auto;
-  margin-bottom: 1rem;
   ${(props) => {
     if (props.$hide) {
       return css`
@@ -50,4 +49,13 @@ const Thumbnail = (props: ThumbnailProps) => {
   );
 };
 
-export default Thumbnail;
+export default styled(Thumbnail)<ThumbnailImageProps>`
+  aspect-ratio: 2 / 3;
+  width: ${(props) => props.$width};
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 1rem;
+`;

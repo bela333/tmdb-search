@@ -70,7 +70,7 @@ const MovieModalSidebar = ({
         rel="noopener noreferrer"
       >
         <Thumbnail
-          $width="80%"
+          $width="100%"
           src={
             movie.poster_path ? `${imageBaseUrl}${movie.poster_path}` : noImage
           }
