@@ -1,8 +1,7 @@
 import { Configuration, defaultConfiguration } from "../schemas/configuration";
 import { apiFetch } from "./api";
 
-//For development, use hard coded values. TODO: Set this to `false` in production
-const development = true;
+const development = false;
 
 /**
  * Get website configuration

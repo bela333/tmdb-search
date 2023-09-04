@@ -19,7 +19,6 @@ const searchMovie = async (
   query: string,
   page: number,
 ): Promise<SearchMovieResult> => {
-  //TODO: Pagination
   const endpoint = `/search/movie?query=${encodeURIComponent(
     query,
   )}&language=en-US&page=${page}`;
