@@ -2,7 +2,7 @@
 
 A search engine frontend for TheMovieDB. Made in React.
 
-Available on [tmdb.bela333.me](http://tmdb.bela333.me)
+Available on [tmdb.bela333.me](https://tmdb.bela333.me)
 
 ## Running
 
